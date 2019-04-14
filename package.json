@@ -1,0 +1,32 @@
+{
+  "name": "backbone_learn",
+  "version": "1.0.0",
+  "description": "learn backbone",
+  "author": "Lu Xu",
+  "license": "MIT",
+  "scripts": {
+    "start": "npm-run-all --parallel open:devServer",
+    "open:db": "node server/db/init.js",
+    "open:server": "node server/web/server.js",
+    "open:devServer": "node tools/srcServer.js",
+    "test:all": "jest"
+  },
+  "dependencies": {
+    "backbone": "^1.4.0",
+    "underscore": "^1.9.1",
+    "mongodb": "^3.1.10",
+    "npm-run-all": "^4.1.3"
+  },
+  "devDependencies": {
+    "css-loader": "^2.1.1",
+    "express": "^4.16.4",
+    "jest": "^24.5.0",
+    "jquery": "^3.4.0",
+    "jsdom": "^14.0.0",
+    "open": "^6.1.0",
+    "style-loader": "^0.23.1",
+    "webpack": "^4.16.3",
+    "webpack-dev-middleware": "^3.6.2",
+    "webpack-hot-middleware": "^2.24.3"
+  }
+}
