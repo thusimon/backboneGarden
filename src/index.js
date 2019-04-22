@@ -1,13 +1,9 @@
 const Backbone = require('backbone');
 const _ = require('underscore');
-const Car = require('./models/Car');
-const CarsView = require('./views/CarsView');
-const AddWidget = require('./views/AddWidget');
+const Cars = require('./collections/carCollection');
+const NavView = require('./views/NavView');
+const AppRouter = require('./routers/AppRouter');
 require('./style/styles.css');
-
-var Cars = Backbone.Collection.extend({
-    model: Car
-});
 
 var cars = new Cars([
     {registrationNumber: "AVC887", color:"Blue", year:2010},
@@ -19,10 +15,14 @@ cars.add({registrationNumber: "ABC123", color:"Red", year:2004})
 
 const eventBus = _.extend({}, Backbone.Events);
 
-const carsView = new CarsView({el: 'div#container', model: cars, eventBus});
-carsView.render();
-carsView.model.at(0).set('year', 1999);
+const options = {
+    data: cars,
+    eventBus
+}
 
-const addWidget = new AddWidget({el: 'div#container', params:['registrationNumber', 'year', 'color'], eventBus});
-addWidget.render();
+const appRouter = new AppRouter(options);
+appRouter.navigate('home', {trigger: true});
+Backbone.history.start();
 
+const navView = new NavView({el: 'div#nav', router:appRouter});
+navView.render();    

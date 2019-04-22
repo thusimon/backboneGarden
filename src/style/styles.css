@@ -1,9 +1,46 @@
-
 body {
-	padding: 40px;
+	margin: 0px;
+	padding: 0px;
 }
 
-body, p { font-size: 24px; }
+body, p , button{ font-size: 24px; }
+#nav ul{
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	background-color: #333;
+}
+#nav li {
+	float: left;
+	border-right:1px solid #bbb;
+	display: block;
+	color: white;
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
+	cursor: pointer;
+}
+#nav li:last-child {
+	border-right: none;
+}
+
+#nav li:hover:not(.active) {
+	background-color: #111;
+}
+  
+#nav .active {
+	background-color: #4CAF50;
+}
+
+hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #ccc;
+    margin: 1em 0;
+    padding: 0;
+}
 
 li.carRenew {
 	background-color: aquamarine;
@@ -11,3 +48,7 @@ li.carRenew {
 li.carSuspend {
 	background-color: coral;
 }
+
+ul#todoList li.completed{
+	text-decoration: line-through;
+} 

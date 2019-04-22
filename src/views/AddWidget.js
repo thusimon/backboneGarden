@@ -26,7 +26,7 @@ const AddWidget = Backbone.View.extend({
     },
 
     render: function() {
-        const container = $('<div class="add-widget-container"></div>');
+        const container = $('<div class="add-widget-container"><hr></hr></div>');
         this.params.forEach(function(p) {
             const field = `<div>
                 <label for='${p}'>${p}</label>

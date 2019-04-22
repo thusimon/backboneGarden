@@ -12,7 +12,7 @@ const CarView = Backbone.View.extend({
         if (carYear < 2000) {
             this.$el.children('button.renewBtn').css('border','2px red solid');
         } else {
-            this.$el.children('button.renewBtn').css('border','1px solid black');
+            this.$el.children('button.renewBtn').css('border','1px black solid');
         }
         this.$el.children('span').text(carYear);
     },
@@ -20,6 +20,7 @@ const CarView = Backbone.View.extend({
     events: {
         'click .renewBtn': 'onClickRenew',
         'click .suspBtn': 'onClickSuspend',
+        'click .syncBtn': 'onClickSync', 
         'click .removeBtn': 'onClickRemove'
     },
 
@@ -32,16 +33,33 @@ const CarView = Backbone.View.extend({
         this.$el.addClass('carSuspend');
     },
 
+    onClickSync: function(e) {
+        const self = this;
+        this.model.fetch({
+            success: function(){
+                self.$el.children('div.details').text(self.model.get('details'));
+            },
+            error: function(e){
+                self.$el.children('div.details').text("error: " + e.toString());
+            }
+        });
+    },
+
     onClickRemove: function(e) {
-        if (this.model.collection){
-            this.model.collection.remove(this.model);
+        if (confirm('Are you sure?')){
+            if (this.model.collection){
+                this.model.collection.remove(this.model);
+            } else {
+                this.$el.remove();
+            }
+            this.model.destory();
         }
     },
 
     tagName: 'li',
-    classname: 'span-car',
+    className: 'span-car',
     attributes: {
-        'arial-label': 'car'
+        'aria-label': 'car'
     },
     render: function() {
         const modelData = this.model.toJSON();
@@ -50,6 +68,7 @@ const CarView = Backbone.View.extend({
         const htmlContent = template(modelData);
         this.$el.html(htmlContent);
         this.$el.attr('id', this.model.id);
+        this.$el.attr('aria-label', 'car');
         return this;
     }
 });
