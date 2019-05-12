@@ -1,8 +1,10 @@
 const Backbone = require('backbone');
+const _ = require('underscore');
 const $ = Backbone.$;
 const Todo = require('../models/Todo');
 const TodoView = require('./TodoView');
 const TodoCollection = require('../collections/TodoCollection');
+const TodosViewTemplate = require('../templates/TodosViewTemplate');
 const TodosView = Backbone.View.extend({
     initialize: function(options){
         this.model = new TodoCollection();
@@ -12,10 +14,11 @@ const TodosView = Backbone.View.extend({
     },
 
     events: {
-        'click button#addTodoBtn': 'onClickAddTodo'
+        'click button#addTodoBtn': 'onClickAddTodo',
+        'keyup input#addTodoInput': 'onKeyupAddTodo',
     },
 
-    onClickAddTodo: function(){
+    _addTodo: function() {
         const $titleInput = this.$el.find('input#addTodoInput');
         const newModel = new Todo({title: $titleInput.val()});
         this.model.create(newModel, {
@@ -24,9 +27,20 @@ const TodosView = Backbone.View.extend({
             }
         });
     },
+
+    onClickAddTodo: function(){
+        this._addTodo();
+    },
+
+    onKeyupAddTodo: function(e) {
+        if(e.keyCode === 13){
+            this._addTodo();
+        }
+    },
+
     onCollectionAdd: function(todo){
         const todoView = new TodoView({model: todo});
-        this.$el.children('ul').append(todoView.render().$el);
+        this.$el.find('ul').append(todoView.render().$el);
     },
 
     onCollectionRemove: function(todo) {
@@ -34,14 +48,8 @@ const TodosView = Backbone.View.extend({
         this.$el.find(`li#${id}`).remove();
     },
     render: function() {
-        const $control = $('<div><input id="addTodoInput" type="text" autofocus /><button id="addTodoBtn">Add</button></div>');
-        const $ul = $('<ul id="todoList"></ul>');
-        this.model.forEach((todo) => {
-            const todoView = new TodoView({model: todo});
-            $ul.append(todoView.render());
-        });
-        this.$el.append($control);
-        this.$el.append($ul);
+        const htmlTemplate = _.template(TodosViewTemplate);
+        this.$el.append(htmlTemplate);
         return this;
     }
 });
